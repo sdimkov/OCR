@@ -61,7 +61,7 @@ chars:              # All characters of this OCR language ordered
   - { name: N                                                      }
   - { name: O                                                      }
   - { name: P                                                      }
-  - { name: Q                                   , vert_offset: -2  }
+  - { name: Q                                   , vert_offset: -3  }
   - { name: R                                                      }
   - { name: S                                                      }
   - { name: T                                                      }
