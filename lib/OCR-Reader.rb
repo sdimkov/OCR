@@ -9,7 +9,7 @@ module OCR
       @min_space = lang['min_space']
       @min_accuracy = lang['min_accuracy']
       @chars = []
-      for group in lang['chars'].keys do
+      for group in lang['chars'].keys
         for char in lang['chars'][group]
           new_char = Image.from_file(
             "#{lang_path}/chars/#{group}/#{(char['file'] || "#{char['name']}.png")}")
@@ -53,10 +53,10 @@ module OCR
         word.dimension.height + word.vert_offset < char.dimension.height + char.vert_offset or
         word.vert_offset > char.vert_offset)
       then
-        for x in 0..char.dimension.width-1 do
+        for x in 0..char.dimension.width-1
           wd_x = x + left_offset
           ch_y = char.dimension.height + vert_offset - word.dimension.height
-          for y in 0..word.dimension.height do
+          for y in 0..word.dimension.height
             wrong_pixels += 1 if char[x,ch_y] != word[wd_x,y]
             ch_y += 1
           end
@@ -74,10 +74,10 @@ module OCR
     def read_word word
       wd_corner = word.corner
       results = []
-      for char in @chars do
+      for char in @chars
         word.vert_offset = char.vert_offset + char.corner - wd_corner
         accuracy = merge char, word
-        if accuracy >= MIN_ACCURACY
+        if accuracy >= @min_accuracy
           results << { :char => char, :accuracy => accuracy }
         end
       end
@@ -88,13 +88,13 @@ module OCR
       word.text = result[:char].text
       left_offset = result[:char].dimension.width
       
-      while left_offset < word.dimension.width do
+      while left_offset < word.dimension.width
         while word.empty_column? left_offset
           left_offset += 1
           return if left_offset == word.dimension.width
         end
         results = []
-        for char in @chars do
+        for char in @chars
           accuracy = merge char, word, left_offset
           if accuracy >= @min_accuracy
             results << { :char => char, :accuracy => accuracy }
@@ -102,9 +102,9 @@ module OCR
         end
         if results.empty?
           left_offset -= 1
-          for char in @chars do
+          for char in @chars
             accuracy = merge char, word, left_offset
-            if accuracy >= MIN_ACCURACY
+            if accuracy >= @min_accuracy
               results << { :char => char, :accuracy => accuracy }
             end
           end

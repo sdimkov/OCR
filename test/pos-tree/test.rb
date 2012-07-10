@@ -10,7 +10,7 @@ $tests = YAML.load File.open 'test.yaml'
 
 def run_test entry, path
   img = "#{path}#{entry[0]}.png"
-  result = $reader.scan img
+  result = $reader.read img
   if result == entry[1] then puts "#{img}"
   else puts "#{img} FAILED! result=#{result}" end
 end
