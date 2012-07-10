@@ -1,0 +1,72 @@
+---
+name: pos3          ## Name of the OCR language.
+
+min_space: 4        # Minimal horizontal length(in pixels) for
+                    # white space(shorter space would be ignored).
+                    
+min_accuracy: 100   # Minimal accuracy for matching single 
+                    # characters in percentage.
+
+chars:              # All characters of this OCR language ordered
+                    # in semantic groups. Each group is located
+                    # in folder named after the group.   
+
+  
+  
+  big:
+  #  ______________________________________________________________
+  # | name      | file                          | vert_offset      |
+  - { name: A                                                      }
+  - { name: B                                                      }
+  - { name: C                                                      }
+  - { name: D                                                      }
+  - { name: E                                                      }
+  - { name: F                                                      }
+  - { name: G                                                      }
+  - { name: H                                                      }
+  - { name: I                                                      }
+  - { name: J                                                      }
+  - { name: K                                                      }
+  - { name: L                                                      }
+  - { name: M                                                      }
+  - { name: N                                                      }
+  - { name: O                                                      }
+  - { name: P                                                      }
+  - { name: Q                                   , vert_offset: -1  }
+  - { name: R                                                      }
+  - { name: S                                                      }
+  - { name: T                                                      }
+  - { name: U                                                      }
+  - { name: V                                                      }
+  - { name: W                                                      }
+  - { name: X                                                      }
+  - { name: Y                                                      }
+  - { name: Z                                                      }
+  # |___________|_______________________________|__________________|
+
+  digits:
+  #  ______________________________________________________________
+  # | name      | file                          | vert_offset      |
+  - { name: 0                                                      }
+  - { name: 1                                                      }
+  - { name: 2                                                      }
+  - { name: 3                                                      }
+  - { name: 4                                                      }
+  - { name: 5                                                      }
+  - { name: 6                                                      }
+  - { name: 7                                                      }
+  - { name: 8                                                      }
+  - { name: 9                                                      }
+  # |___________|_______________________________|__________________|
+
+  special:
+  #  ______________________________________________________________
+  # | name      | file                          | vert_offset      |
+  - { name: '-' , file: minus.png               , vert_offset:  4  }
+  - { name: '.' , file: period.png              , vert_offset: -1  }
+  - { name: '$' , file: dollar.png                                 }
+  - { name: ':' , file: column.png              , vert_offset: -1  }
+  - { name: '%' , file: percent.png                                }
+  # |___________|_______________________________|__________________|
+  
+  
