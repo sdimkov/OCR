@@ -1,4 +1,7 @@
-require File.expand_path File.dirname(__FILE__) + '/lib/OCR'
+#!/usr/bin/env ruby
+$LOAD_PATH << '/home/sdimkov/Projects/OCR/lib'
+
+require 'OCR'
 
 pos1 = OCR::Reader.new 'lang/pos1'
 pos2 = OCR::Reader.new 'lang/pos2'
@@ -16,4 +19,3 @@ for pic in ARGV do
     end
   end
 end
-

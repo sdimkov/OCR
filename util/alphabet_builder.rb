@@ -1,4 +1,7 @@
-require File.expand_path File.dirname(__FILE__) + '/lib/OCR'
+#!/usr/bin/env ruby
+$LOAD_PATH << '/home/sdimkov/Projects/OCR/lib'
+
+require 'OCR'
 
 all_chars = []
 new_chars_folder = 'new_chars'
