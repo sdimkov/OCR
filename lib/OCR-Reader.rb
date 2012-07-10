@@ -20,22 +20,22 @@ module OCR
       end
     end
     
-    def scan arg
+    def read arg
       if arg.is_a? String
-        scan_image(Image.from_file arg)
-      elsif arg.is_a? Image
-        scan_image(arg)
+        read_text(Image.from_file arg)
+      elsif arg.is_a? OCR::Image
+        read_text(arg)
       else
         ## HOW DO WE HANDLE ERRORS?
       end
     end
     
-    #private
-    def scan_image image
+    private
+    def read_text image
       image.text = ""
       image.filter_color
       image.trim
-      words = image.split 10
+      words = image.split @min_space
 
       for word in words do
         text = read_word(word)
@@ -65,6 +65,10 @@ module OCR
       else
         wrong_pixels = char.area
       end
+      rez = ( (1 - ( wrong_pixels.to_f / char.area ) ) * 100)
+	  #if rez >= MIN_ACCURACY
+	  #  print char.text
+	  #end
       return ( (1 - ( wrong_pixels.to_f / char.area ) ) * 100)
     end
   

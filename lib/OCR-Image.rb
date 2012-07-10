@@ -2,8 +2,8 @@ require 'chunky_png'
 
 
 module OCR
-
-  TEXT_PIXEL  = 4294902015  #255,255,0 YELLOW
+ 
+  TEXT_PIXELS = [ 4294902015, 4278059263 ] 
   WHITE_PIXEL = ChunkyPNG::Color::WHITE
   BLACK_PIXEL = ChunkyPNG::Color::BLACK
   
@@ -65,7 +65,7 @@ module OCR
     def filter_color
       for x in 0..dimension.width-1 do
         for y in 0..dimension.height-1 do
-          if self[x,y] == TEXT_PIXEL
+          if TEXT_PIXELS.include? self[x,y]
             self[x,y] = BLACK_PIXEL
           else
             self[x,y] = WHITE_PIXEL
