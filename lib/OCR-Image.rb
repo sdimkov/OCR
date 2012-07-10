@@ -18,9 +18,9 @@ module OCR
     
     def display
       unless @empty
-        for y in 0..dimension.height-1 do
-          for x in 0..dimension.width-1 do
-            if get_pixel(x,y) == BLACK_PIXEL
+        for y in 0..dimension.height-1
+          for x in 0..dimension.width-1
+            if get_pixel(x,y) != WHITE_PIXEL
               print "@"
             else
               print "."
@@ -63,8 +63,8 @@ module OCR
     end
     
     def filter_color
-      for x in 0..dimension.width-1 do
-        for y in 0..dimension.height-1 do
+      for x in 0..dimension.width-1
+        for y in 0..dimension.height-1
           if TEXT_PIXELS.include? self[x,y]
             self[x,y] = BLACK_PIXEL
           else

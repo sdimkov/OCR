@@ -18,6 +18,7 @@ module OCR
           @chars << new_char
         end
       end
+      @chars.sort! { |a,b| b.dimension.width <=> a.dimension.width }
     end
     
     def read arg
@@ -64,56 +65,68 @@ module OCR
       else
         wrong_pixels = char.area
       end
-      rez = ( (1 - ( wrong_pixels.to_f / char.area ) ) * 100)
-	  #if rez >= MIN_ACCURACY
+      #rez = ( (1 - ( wrong_pixels.to_f / char.area ) ) * 100)
+	  #if rez >= @min_accuracy
 	  #  print char.text
+	  #elsif char.text == 'Q'
+	  #  puts " Q(#{rez})"
 	  #end
       return ( (1 - ( wrong_pixels.to_f / char.area ) ) * 100)
     end
   
     def read_word word
       wd_corner = word.corner
-      results = []
+      matched_char = nil
+      matched_accuracy = nil
       for char in @chars
+        break if matched_char and matched_char.dimension.width > char.dimension.width
         word.vert_offset = char.vert_offset + char.corner - wd_corner
         accuracy = merge char, word
         if accuracy >= @min_accuracy
-          results << { :char => char, :accuracy => accuracy }
+		  unless matched_char and matched_accuracy > accuracy
+		    matched_char = char
+		    matched_accuracy = accuracy
+		  end
         end
       end
-      return nil if results.empty?
-      results.sort! {|a,b| b[:char].dimension.width <=> a[:char].dimension.width}
-      result = results.first
-      word.vert_offset = result[:char].vert_offset + result[:char].corner - wd_corner
-      word.text = result[:char].text
-      left_offset = result[:char].dimension.width
+      return nil unless matched_char
+      word.vert_offset = matched_char.vert_offset + matched_char.corner - wd_corner
+      word.text = matched_char.text
+      left_offset = matched_char.dimension.width
       
       while left_offset < word.dimension.width
         while word.empty_column? left_offset
           left_offset += 1
           return if left_offset == word.dimension.width
         end
-        results = []
+        matched_char = nil
+        matched_accuracy = nil
         for char in @chars
+          break if matched_char and matched_char.dimension.width > char.dimension.width
           accuracy = merge char, word, left_offset
           if accuracy >= @min_accuracy
-            results << { :char => char, :accuracy => accuracy }
+		    unless matched_char and matched_accuracy > accuracy
+		      matched_char = char
+		      matched_accuracy = accuracy
+		    end
           end
         end
-        if results.empty?
+        unless matched_char
           left_offset -= 1
           for char in @chars
+            break if matched_char and matched_char.dimension.width > char.dimension.width
             accuracy = merge char, word, left_offset
             if accuracy >= @min_accuracy
-              results << { :char => char, :accuracy => accuracy }
+		      unless matched_char and matched_accuracy > accuracy
+		        matched_char = char
+		        matched_accuracy = accuracy
+		      end
             end
           end
         end
-        return nil if results.empty?
-        results.sort! {|a,b| b[:char].dimension.width <=> a[:char].dimension.width}
-        result = results.first
-        word.text += result[:char].text
-        left_offset += result[:char].dimension.width
+        return nil unless matched_char
+        word.text += matched_char.text
+        left_offset += matched_char.dimension.width
       end
       
       return word.text
