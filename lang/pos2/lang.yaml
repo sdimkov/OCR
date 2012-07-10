@@ -3,9 +3,6 @@ name: pos2          ## Name of the OCR language.
 
 min_space: 14       # Minimal horizontal length(in pixels) for
                     # white space(shorter space would be ignored).
-                    
-min_multichar: 14   # Minimal horizontal length(in pixels) for
-                    # multi-chars(concatenated single chars).
 
 chars:              # All characters of this OCR language ordered
                     # in semantic groups. Each group is located

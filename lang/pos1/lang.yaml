@@ -1,11 +1,8 @@
 ---
 name: pos1          ## Name of the OCR language.
 
-min_space: 10       # Minimal horizontal length(in pixels) for
+min_space: 9        # Minimal horizontal length(in pixels) for
                     # white space(shorter space would be ignored).
-                    
-min_multichar: 8    # Minimal horizontal length(in pixels) for
-                    # multi-chars(concatenated single chars).
 
 chars:              # All characters of this OCR language ordered
                     # in semantic groups. Each group is located
