@@ -4,6 +4,9 @@ name: pos2          ## Name of the OCR language.
 min_space: 14       # Minimal horizontal length(in pixels) for
                     # white space(shorter space would be ignored).
 
+min_accuracy: 94    # Minimal accuracy for matching single
+                    # characters(in percentage).
+                    
 chars:              # All characters of this OCR language ordered
                     # in semantic groups. Each group is located
                     # in folder named after the group.   

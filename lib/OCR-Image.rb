@@ -3,7 +3,7 @@ require 'chunky_png'
 
 module OCR
  
-  TEXT_PIXELS = [ 4294902015, 4278059263 ] 
+  TEXT_PIXELS = [ 4294902015, 4278059263, ChunkyPNG::Color::BLACK ] 
   WHITE_PIXEL = ChunkyPNG::Color::WHITE
   BLACK_PIXEL = ChunkyPNG::Color::BLACK
   

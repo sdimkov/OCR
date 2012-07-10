@@ -1,13 +1,13 @@
 require 'yaml'
 
 module OCR
-  MIN_ACCURACY = 93  # 93% matching pixels
+
   class Reader
     def initialize lang_path
       lang = YAML.load File.open(lang_path + '/lang.yaml')
       @lang_name = lang['name']
       @min_space = lang['min_space']
-      @min_multichar = lang['min_multichar']
+      @min_accuracy = lang['min_accuracy']
       @chars = []
       for group in lang['chars'].keys do
         for char in lang['chars'][group]
@@ -45,7 +45,6 @@ module OCR
       
       return image.text.chop!
     end
-
   
     def merge char, word, left_offset = 0
       wrong_pixels = 0
@@ -97,7 +96,7 @@ module OCR
         results = []
         for char in @chars do
           accuracy = merge char, word, left_offset
-          if accuracy >= MIN_ACCURACY
+          if accuracy >= @min_accuracy
             results << { :char => char, :accuracy => accuracy }
           end
         end
