@@ -1,7 +1,7 @@
 ---
 name: pos3          ## Name of the OCR language.
 
-min_space: 4        # Minimal horizontal length(in pixels) for
+min_space: 5        # Minimal horizontal length(in pixels) for
                     # white space(shorter space would be ignored).
 
 min_accuracy: 100   # Minimal accuracy for matching single
@@ -11,7 +11,36 @@ chars:              # All characters of this OCR language ordered
                     # in semantic groups. Each group is located
                     # in folder named after the group.   
 
-  
+  small:
+  #  ______________________________________________________________
+  # | name      | file                          | vert_offset      |
+  - { name: a                                                      }
+  - { name: b                                                      }
+  - { name: c                                                      }
+  - { name: d                                                      }
+  - { name: e                                                      }
+  - { name: f                                                      }
+  - { name: g                                   , vert_offset: -2  }
+  - { name: h                                                      }
+  - { name: i                                                      }
+  - { name: j                                   , vert_offset: -2  }
+  - { name: k                                                      }
+  - { name: l                                                      }
+  - { name: m                                                      }
+  - { name: n                                                      }
+  - { name: o                                                      }
+  - { name: p                                   , vert_offset: -2  }
+  - { name: q                                   , vert_offset: -2  }
+  - { name: r                                                      }
+  - { name: s                                                      }
+  - { name: t                                                      }
+  - { name: u                                                      }
+  - { name: v                                                      }
+  - { name: w                                                      }
+  - { name: x                                                      }
+  - { name: y                                   , vert_offset: -2  }
+  - { name: z                                                      }
+  # |___________|_______________________________|__________________|
   
   big:
   #  ______________________________________________________________
@@ -62,11 +91,38 @@ chars:              # All characters of this OCR language ordered
   special:
   #  ______________________________________________________________
   # | name      | file                          | vert_offset      |
-  - { name: '-' , file: minus.png               , vert_offset:  4  }
-  - { name: '.' , file: period.png              , vert_offset: -1  }
-  - { name: '$' , file: dollar.png                                 }
+  - { name: '&' , file: ampersand.png                              }
+  - { name: '*' , file: asterisk.png            , vert_offset:  4  }
+  - { name: '@' , file: at.png                                     }
+  - { name: '\' , file: backslash.png                              }
+  - { name: '^' , file: caret.png               , vert_offset:  6  }
+  - { name: '}' , file: close_brace.png         , vert_offset: -1  }
+  - { name: ']' , file: close_bracket.png       , vert_offset: -1  }
+  - { name: ')' , file: close_parenthesis.png   , vert_offset: -1  }
   - { name: ':' , file: column.png              , vert_offset: -1  }
+  - { name: ',' , file: comma.png               , vert_offset: -1  }
+  - { name: '$' , file: dollar.png                                 }
+  - { name: '"' , file: double_quotes.png       , vert_offset:  6  }
+  - { name: '=' , file: equal.png               , vert_offset:  2  }
+  - { name: '!' , file: exclamation_mark.png                       }
+  - { name: '`' , file: grave_accent.png        , vert_offset:  8  }
+  - { name: '<' , file: less.png                                   }
+  - { name: '-' , file: minus.png               , vert_offset:  4  }
+  - { name: '>' , file: more.png                                   }
+  - { name: '{' , file: open_brace.png          , vert_offset: -1  }
+  - { name: '[' , file: open_bracket.png        , vert_offset: -1  }
+  - { name: '(' , file: open_parenthesis.png    , vert_offset: -1  }
   - { name: '%' , file: percent.png                                }
+  - { name: '.' , file: period.png              , vert_offset: -1  }
+  - { name: '+' , file: plus.png                , vert_offset:  2  }
+  - { name: '#' , file: pound.png               , vert_offset:  1  }
+  - { name: '?' , file: question_mark.png                          }
+  - { name: ';' , file: semicolon.png           , vert_offset: -3  }
+  - { name: "'" , file: single_quote.png        , vert_offset:  8  }
+  - { name: '/' , file: slash.png                                  }
+  - { name: '~' , file: tilde.png               , vert_offset:  6  }
+  - { name: '_' , file: minus.png               , vert_offset: -1  }
+  - { name: '|' , file: vertical_bar.png                           }
   # |___________|_______________________________|__________________|
   
   
