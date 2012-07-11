@@ -20,7 +20,7 @@ PROMPTS:
 - [ 2, "KEEP IT NEW FOR YOU?" ]
 - [ 3, "ENTER PRICE" ]
 - [ 4, "SELECT TYPE" ]
-- [ 5, "SIGN ON AS MANAGER?  (Y/N)" ]
+- [ 5, "SIGN ON AS MANAGER? (Y/N)" ]
 - [ 6, "ENTER MANAGER ID" ]
 - [ 7, "ENTER PASSWORD" ]
 - [ 8, "CUSTOMER NAME" ]
