@@ -1,0 +1,28 @@
+NAME	FILE	VERT_OFFSET
+A		
+A	A2.png	
+B		
+C		
+D		
+E		
+F		
+G		
+H		
+I		
+J		
+K		
+L		
+M		
+N		
+O		
+P		
+Q		-2
+R		
+S		
+T		
+U		
+V		
+W		
+X		
+Y		
+Z		

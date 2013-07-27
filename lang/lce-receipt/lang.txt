@@ -1,0 +1,4 @@
+name=lce-receipt
+min_space=9
+min_accuracy=95
+max_kerning=1s

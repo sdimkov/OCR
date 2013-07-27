@@ -1,0 +1,4 @@
+name=lce-msg
+min_space=5
+min_accuracy=100
+max_kerning=0

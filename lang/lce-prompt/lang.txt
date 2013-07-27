@@ -1,0 +1,4 @@
+name=lce-prompt
+min_space=14
+min_accuracy=95
+max_kerning=1

@@ -1,0 +1,4 @@
+name=lce-menu
+min_space=5
+min_accuracy=98
+max_kerning=1

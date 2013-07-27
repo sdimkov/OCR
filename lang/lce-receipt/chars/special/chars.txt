@@ -1,0 +1,33 @@
+NAME	FILE	VERT_OFFSET
+&	ampersand.png	
+*	asterisk.png	4
+@	at.png	-1
+\	backslash.png	-3
+^	caret.png	5
+}	close_brace.png	-3
+]	close_bracket.png	-3
+)	close_parenthesis.png	-3
+:	colon.png	
+,	comma.png	-3
+$	dollar.png	-2
+"	double_quotes.png	6
+=	equal.png	2
+!	exclamation_mark.png	
+`	grave_accent.png	9
+<	less.png	1
+-	minus.png	4
+>	more.png	1
+{	open_brace.png	-3
+[	open_bracket.png	-3
+(	open_parenthesis.png	-3
+%	percent.png	
+.	period.png	
++	plus.png	
+#	pound.png	-1
+?	question_mark.png	
+;	semicolon.png	-3
+'	single_quote.png	6
+/	slash.png	-3
+~	tilde.png	4
+_	underscore.png	-4
+|	vertical_bar.png	-3

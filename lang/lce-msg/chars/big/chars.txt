@@ -1,0 +1,27 @@
+NAME	FILE	VERT_OFFSET
+A		
+B		
+C		
+D		
+E		
+F		
+G		
+H		
+I		
+J		
+K		
+L		
+M		
+N		
+O		
+P		
+Q		-1
+R		
+S		
+T		
+U		
+V		
+W		
+X		
+Y		
+Z		

@@ -1,0 +1,4 @@
+name=lce-led
+min_space=3
+min_accuracy=97
+max_kerning=0
