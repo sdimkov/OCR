@@ -2,8 +2,8 @@
 
 #include <iostream>
 #include "ocr.h"
-#include <QtGui/QApplication>
-#include <QPixmap>
+#include <QApplication>
+#include <QScreen>
 #include <QDesktopWidget>
 #include <QTime>
 #include <iomanip>
@@ -51,11 +51,11 @@ const char* ocr_read_image(OCR* obj, char* path)                { return obj->re
 
 void img_screenshot(char* file, int wid)
 {
-    QPixmap::grabWindow(wid).toImage().save(file);
+    QGuiApplication::primaryScreen()->grabWindow(wid).toImage().save(file);
 }
 void img_screenshot_area(char* file, int wid, int x, int y, int w, int h)
 {
-    QPixmap::grabWindow(wid, x, y, w, h).toImage().save(file);
+    QGuiApplication::primaryScreen()->grabWindow(wid, x, y, w, h).toImage().save(file);
 }
 void img_draw_rect(char* file, int x, int y, int w, int h, int r, int g, int b)
 {

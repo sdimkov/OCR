@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include <QApplication>
+#include <QScreen>
 #include <QPixmap>
 
 namespace ocr {

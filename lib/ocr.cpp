@@ -14,7 +14,7 @@ void OCR::add_language(string path)
 
 string OCR::read_text(int x, int y, int w, int h)
 {
-    QImage qimage = QPixmap::grabWindow(wid, x, y, w, h).toImage();
+    QImage qimage = QGuiApplication::primaryScreen()->grabWindow(wid, x, y, w, h).toImage();
     //qimage.save("/home/sdimkov/ocr.png");
     return read(qimage).text;
 }
