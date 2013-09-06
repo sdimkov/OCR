@@ -3,11 +3,14 @@ require 'rubygems'
 require 'ffi'
 require 'yaml'
 
+LANG_PATH = ENV['OCR_TEST_LANG']
+LIB_PATH  = ENV['OCR_TEST_LIB']
+
 
 # Load shared OCR library
 module LibOCR
   extend FFI::Library
-  ffi_lib "/home/sdimkov/Projects/RubyLCE/OCR/lib.so"
+  ffi_lib LIB_PATH
   attach_function :ocr_create,            [],                                 :pointer
   attach_function :ocr_delete,            [:pointer],                         :void
   attach_function :ocr_get_window,        [:pointer],                         :int
@@ -53,11 +56,11 @@ end
 
 # Create OCR object and load languages
 $ocr = LibOCR.ocr_create
-LibOCR.ocr_add_language $ocr, '/home/sdimkov/Projects/RubyLCE/OCR/lang/lce-receipt/'
-LibOCR.ocr_add_language $ocr, '/home/sdimkov/Projects/RubyLCE/OCR/lang/lce-prompt/'
-LibOCR.ocr_add_language $ocr, '/home/sdimkov/Projects/RubyLCE/OCR/lang/lce-msg/'
-LibOCR.ocr_add_language $ocr, '/home/sdimkov/Projects/RubyLCE/OCR/lang/lce-menu/'
-LibOCR.ocr_add_language $ocr, '/home/sdimkov/Projects/RubyLCE/OCR/lang/lce-led/'
+LibOCR.ocr_add_language $ocr, "#{LANG_PATH}/lce-receipt/"
+LibOCR.ocr_add_language $ocr, "#{LANG_PATH}/lce-prompt/"
+LibOCR.ocr_add_language $ocr, "#{LANG_PATH}/lce-msg/"
+LibOCR.ocr_add_language $ocr, "#{LANG_PATH}/lce-menu/"
+LibOCR.ocr_add_language $ocr, "#{LANG_PATH}/lce-led/"
 
 # Run tests on all provided locations
 ARGV.each do |test_folder|
