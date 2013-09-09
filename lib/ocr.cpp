@@ -55,10 +55,12 @@ Result OCR::read(Image *image)
     }
     if(!result.success) {
         Image* r_image = t_image->invert();
+        Image* rt_image = r_image->trim();
         for(auto language : languages) {
-            result = language->read(r_image);
+            result = language->read(rt_image);
             if(result.success) break;
         }
+        delete rt_image;
         delete r_image;
     }
 

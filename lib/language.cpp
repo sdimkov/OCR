@@ -141,32 +141,34 @@ Result Language::read(Image* image)
     return result;
 }
 
-float Language::merge(Image *ch, Image *word, int left_offset)
-{   //if(name=="pos3") cout << "Merge("<<ch->text<<", *word, "<<left_offset<<")\n";
-    int x, y, wd_x, ch_y, wrong_pixels = 0;
-    int vert_offset = ch->vert_offset - word->vert_offset;
+float Language::merge(Image *ch, Image *img, int left_offset)
+{
+    int ch_x, ch_y;
+    int img_x, img_y;
+    int wrong_pixels = 0;
+    int vert_offset = ch->vert_offset - img->vert_offset;
 
-    if ((word->height + word->vert_offset < ch->height + ch->vert_offset) ||
-        (word->vert_offset > ch->vert_offset)) {
+    if ((img->height + img->vert_offset < ch->height + ch->vert_offset) ||
+        (img->vert_offset > ch->vert_offset)) {
         return 0;
     }
 
-    for (x = 0; (x < ch->width) && (x < word->width - left_offset); ++x) {
-        wd_x = x + left_offset;
-        y = 0;
-        ch_y = ch->height + vert_offset - word->height;
-        for (; ch_y < 0; y++, ch_y++)
-            if (word->pixel[wd_x][y] != 0) wrong_pixels++;
-        for (; ch_y < ch->height; y++, ch_y++)
-            if (ch->pixel[x][ch_y] != word->pixel[wd_x][y]) wrong_pixels++;
-        for (; y < word->height; y++)
-            if (word->pixel[wd_x][y] != 0) wrong_pixels++;
+    for (ch_x = 0; (ch_x < ch->width) && (ch_x < img->width - left_offset); ++ch_x) {
+        img_x = ch_x + left_offset;
+        img_y = 0;
+        ch_y  = ch->height + vert_offset - img->height;
+        for (; ch_y < 0; img_y++, ch_y++)
+            if (img->pixel[img_x][img_y] != 0) wrong_pixels++;
+        for (; ch_y < ch->height; img_y++, ch_y++)
+            if (ch->pixel[ch_x][ch_y] != img->pixel[img_x][img_y]) wrong_pixels++;
+        for (; img_y < img->height; img_y++)
+            if (img->pixel[img_x][img_y] != 0) wrong_pixels++;
     }
 
-    if (word->width - left_offset < ch->width) {
-        for (; x < ch->width; ++x)
-            for (y = 0; y < ch->height; ++y)
-                if (ch->pixel[x][y] != 0) wrong_pixels++;
+    if (img->width - left_offset < ch->width) {
+        for (; ch_x < ch->width; ++ch_x)
+            for (img_y = 0; img_y < ch->height; ++img_y)
+                if (ch->pixel[ch_x][img_y] != 0) wrong_pixels++;
     }
 
     //float result = ((float)(ch->Area() - wrong_pixels) / (float)ch->Area());
