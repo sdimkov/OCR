@@ -23,3 +23,6 @@ HEADERS  += \
     lib/image.h
 
 QMAKE_CXXFLAGS += -std=c++0x
+
+OTHER_FILES += \
+    test/test.rb

@@ -14,7 +14,6 @@ class String
   def yellow()     apply_code(33)  end
 end
 
-
 # Load shared OCR library
 module LibOCR
   extend FFI::Library
@@ -69,6 +68,7 @@ LibOCR.ocr_add_language $ocr, "#{LANG_PATH}/lce-prompt/"
 LibOCR.ocr_add_language $ocr, "#{LANG_PATH}/lce-msg/"
 LibOCR.ocr_add_language $ocr, "#{LANG_PATH}/lce-menu/"
 LibOCR.ocr_add_language $ocr, "#{LANG_PATH}/lce-led/"
+
 
 # Run tests on all provided locations
 ARGV.each do |test_folder|
