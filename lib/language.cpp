@@ -78,21 +78,13 @@ Result Language::read(string file, std::set<uint>& text_colors)
 Result Language::read(Image* image)
 {
     Result result;
-    image->text = "";
     Image* trimmed_image = image->trim();
 
-    list<Image*> words = trimmed_image->split(min_space);
+    image->text = read_word(trimmed_image);
+    if (image->text != "") result.text = image->text;
+    else result.success = false;
+
     delete trimmed_image;
-
-    for(Image* word : words)
-    {
-        string text = read_word(word);
-        if (text == "") { result.success = false; break; }
-        image->text += text + " ";
-    }
-    for(Image* word : words) delete word;
-
-    if(result.success) result.text = image->text.substr(0,image->text.length()-1);
     return result;
 }
 
@@ -101,12 +93,11 @@ float Language::merge(Image *ch, Image *word, int left_offset)
     int x, y, wd_x, ch_y, wrong_pixels = 0;
     int vert_offset = ch->vert_offset - word->vert_offset;
 
-    if ((word->width - left_offset < ch->width) ||
-        (word->height + word->vert_offset < ch->height + ch->vert_offset) ||
+    if ((word->height + word->vert_offset < ch->height + ch->vert_offset) ||
         (word->vert_offset > ch->vert_offset))
     return 0;
 
-    for (x = 0; x < ch->width; ++x)
+    for (x = 0; (x < ch->width) && (x < word->width - left_offset); ++x)
     {
         wd_x = x + left_offset;
         y = 0;
@@ -119,6 +110,12 @@ float Language::merge(Image *ch, Image *word, int left_offset)
             if (word->pixel[wd_x][y] != 0) wrong_pixels++;
     }
 
+    if (word->width - left_offset < ch->width) {
+        for (; x < ch->width; ++x)
+            for (y = 0; y < ch->height; ++y)
+                if (ch->pixel[x][y] != 0) wrong_pixels++;
+    }
+
     //float result = ((float)(ch->Area() - wrong_pixels) / (float)ch->Area());
     //if(result>0.8) cout << ch->text << " " << result << endl;
     return ((float)(ch->area() - wrong_pixels) / (float)ch->area());
@@ -127,7 +124,7 @@ float Language::merge(Image *ch, Image *word, int left_offset)
 string Language::read_word(Image* word)
 {
     word = word->trim();
-    int left_offset = 0;
+    int space, left_offset = 0;
     Image* matched_char = NULL;
     float accuracy, matched_accuracy = 0;
 
@@ -153,11 +150,14 @@ string Language::read_word(Image* word)
 
     while (left_offset < word->width)
     {
+        space = 0;
         while (word->is_empty_column(left_offset))
         {
-            left_offset++;
+            left_offset++; space++;
             if (left_offset == word->width) { delete word; return ""; }
         }
+        if (space >= min_space) word->text += ' ';
+
         matched_char = NULL;
         matched_accuracy = 0;
         for(Image* ch : chars)
