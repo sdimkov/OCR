@@ -78,13 +78,66 @@ Result Language::read(string file, std::set<uint>& text_colors)
 Result Language::read(Image* image)
 {
     Result result;
-    Image* trimmed_image = image->trim();
+    Image* matched_char = NULL;
+    int space, left_offset = 0;
+    float accuracy, matched_accuracy = 0;
 
-    image->text = read_word(trimmed_image);
-    if (image->text != "") result.text = image->text;
-    else result.success = false;
+    for(Image* ch : chars) {
+        if ((matched_char != NULL) && (matched_char->width > ch->width)) break;
+        image->vert_offset = ch->vert_offset + ch->edge - image->edge;
+        accuracy = merge(ch, image, left_offset);
+        if (accuracy >= min_accuracy) {
+            if ((matched_char == NULL) || (matched_accuracy < accuracy)) {
+                matched_char = ch;
+                matched_accuracy = accuracy;
+            }
+        }
+    }
+    if (matched_char == NULL) return result;
+    image->vert_offset = matched_char->vert_offset + matched_char->edge - image->edge;
+    image->text = matched_char->text; //cout << matched_char->text;
+    left_offset = matched_char->width;
 
-    delete trimmed_image;
+    while (left_offset < image->width) {
+        space = 0;
+        while (image->is_empty_column(left_offset)) {
+            left_offset++; space++;
+            if (left_offset == image->width) return result;
+        }
+        if (space >= min_space) image->text += ' ';
+
+        matched_char = NULL;
+        matched_accuracy = 0;
+        for(Image* ch : chars) {
+            if ((matched_char != NULL) && (matched_char->width > ch->width)) break;
+            accuracy = merge(ch, image, left_offset);
+            if (accuracy >= min_accuracy) {
+                if ((matched_char == NULL) || (matched_accuracy < accuracy)) {
+                    matched_char = ch;
+                    matched_accuracy = accuracy;
+                }
+            }
+        }
+        if((max_kerning > 0) && (matched_char == NULL)) {
+            left_offset--;
+            for(Image* ch : chars) {
+                if ((matched_char != NULL) && (matched_char->width > ch->width)) break;
+                accuracy = merge(ch, image, left_offset);
+                if (accuracy >= min_accuracy) {
+                    if ((matched_char == NULL) || (matched_accuracy < accuracy)) {
+                        matched_char = ch;
+                        matched_accuracy = accuracy;
+                    }
+                }
+            }
+        }
+        if (matched_char == NULL) return result;
+        image->text += matched_char->text; //cout << matched_char->text;
+        left_offset += matched_char->width;
+    }
+
+    result.success = true;
+    result.text = image->text;
     return result;
 }
 
@@ -94,11 +147,11 @@ float Language::merge(Image *ch, Image *word, int left_offset)
     int vert_offset = ch->vert_offset - word->vert_offset;
 
     if ((word->height + word->vert_offset < ch->height + ch->vert_offset) ||
-        (word->vert_offset > ch->vert_offset))
-    return 0;
+        (word->vert_offset > ch->vert_offset)) {
+        return 0;
+    }
 
-    for (x = 0; (x < ch->width) && (x < word->width - left_offset); ++x)
-    {
+    for (x = 0; (x < ch->width) && (x < word->width - left_offset); ++x) {
         wd_x = x + left_offset;
         y = 0;
         ch_y = ch->height + vert_offset - word->height;
@@ -119,88 +172,6 @@ float Language::merge(Image *ch, Image *word, int left_offset)
     //float result = ((float)(ch->Area() - wrong_pixels) / (float)ch->Area());
     //if(result>0.8) cout << ch->text << " " << result << endl;
     return ((float)(ch->area() - wrong_pixels) / (float)ch->area());
-}
-
-string Language::read_word(Image* word)
-{
-    word = word->trim();
-    int space, left_offset = 0;
-    Image* matched_char = NULL;
-    float accuracy, matched_accuracy = 0;
-
-    for(Image* ch : chars)
-    {
-        if ((matched_char != NULL) && (matched_char->width > ch->width))
-            break;
-        word->vert_offset = ch->vert_offset + ch->edge - word->edge;
-        accuracy = merge(ch, word, left_offset);
-        if (accuracy >= min_accuracy)
-        {
-            if ((matched_char == NULL) || (matched_accuracy < accuracy))
-            {
-                matched_char = ch;
-                matched_accuracy = accuracy;
-            }
-        }
-    }
-    if (matched_char == NULL) { delete word; return ""; }
-    word->vert_offset = matched_char->vert_offset + matched_char->edge - word->edge;
-    word->text = matched_char->text; //cout << matched_char->text;
-    left_offset = matched_char->width;
-
-    while (left_offset < word->width)
-    {
-        space = 0;
-        while (word->is_empty_column(left_offset))
-        {
-            left_offset++; space++;
-            if (left_offset == word->width) { delete word; return ""; }
-        }
-        if (space >= min_space) word->text += ' ';
-
-        matched_char = NULL;
-        matched_accuracy = 0;
-        for(Image* ch : chars)
-        {
-            if ((matched_char != NULL) && (matched_char->width > ch->width))
-                break;
-            accuracy = merge(ch, word, left_offset);
-            if (accuracy >= min_accuracy)
-            {
-                if ((matched_char == NULL) || (matched_accuracy < accuracy))
-                {
-                    matched_char = ch;
-                    matched_accuracy = accuracy;
-                }
-            }
-        }
-        if((max_kerning > 0) && (matched_char == NULL))
-        {
-            left_offset--;
-            for(Image* ch : chars)
-            {
-                if ((matched_char != NULL) && (matched_char->width > ch->width))
-                    break;
-                accuracy = merge(ch, word, left_offset);
-                if (accuracy >= min_accuracy)
-                {
-                    if ((matched_char == NULL) || (matched_accuracy < accuracy))
-                    {
-                        matched_char = ch;
-                        matched_accuracy = accuracy;
-                    }
-                }
-            }
-        }
-        if (matched_char == NULL) { delete word; return ""; }
-        word->text += matched_char->text; //cout << matched_char->text;
-        left_offset += matched_char->width;
-    }
-
-
-    string text = word->text;
-    delete word;
-    return text;
 }
 
 } // namespace OCR

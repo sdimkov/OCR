@@ -14,7 +14,7 @@ namespace ocr {
 
 struct Result
 {
-    Result() { success = true; text = ""; accuracy = 0; }
+    Result() { success = false; text = ""; accuracy = 0; }
     bool success;
     std::string text;
     float accuracy;
@@ -34,7 +34,6 @@ public:
 
 private:
     float merge(Image* ch, Image* word, int left_offset);
-    std::string read_word(Image* word);
 
     std::list<Image*> chars;
     int min_space;
