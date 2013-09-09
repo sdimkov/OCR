@@ -19,7 +19,6 @@ public:
     Image(const QImage& image, const std::set<uint>& text_colors); // Create from QImage object
     ~Image();
 
-    int get_edge();
     Image* invert();                              // Returns new inverted image (uses Copy())
     Image* trim();                                // Returns new trimmed image (uses Copy())
     Image* copy();                                // Returns a full copy of the image (dynamically allocated)
@@ -33,6 +32,7 @@ public:
     int area();
 
     int width, height;
+    int edge;
     int** pixel;
     int vert_offset;
     std::string text;
@@ -45,6 +45,7 @@ public:
     static bool compare_width(Image* a, Image* b);
 private:
     void read_image(const QImage& image, const std::set<uint>& text_colors);
+    void update_edge();
 };
 
 } // namespace OCR

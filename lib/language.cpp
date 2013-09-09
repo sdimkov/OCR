@@ -128,7 +128,6 @@ string Language::read_word(Image* word)
 {
     word = word->trim();
     int left_offset = 0;
-    int wd_edge = word->get_edge();
     Image* matched_char = NULL;
     float accuracy, matched_accuracy = 0;
 
@@ -136,7 +135,7 @@ string Language::read_word(Image* word)
     {
         if ((matched_char != NULL) && (matched_char->width > ch->width))
             break;
-        word->vert_offset = ch->vert_offset + ch->get_edge() - wd_edge;
+        word->vert_offset = ch->vert_offset + ch->edge - word->edge;
         accuracy = merge(ch, word, left_offset);
         if (accuracy >= min_accuracy)
         {
@@ -148,7 +147,7 @@ string Language::read_word(Image* word)
         }
     }
     if (matched_char == NULL) { delete word; return ""; }
-    word->vert_offset = matched_char->vert_offset + matched_char->get_edge() - wd_edge;
+    word->vert_offset = matched_char->vert_offset + matched_char->edge - word->edge;
     word->text = matched_char->text; //cout << matched_char->text;
     left_offset = matched_char->width;
 

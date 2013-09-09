@@ -55,6 +55,7 @@ Image* Image::invert()
     for(int x=0; x<width; ++x)
         for(int y=0; y<height; ++y)
             copy->pixel[x][y] ^= 1;
+    copy->update_edge();
     return copy;
 }
 Image* Image::trim()
@@ -93,7 +94,7 @@ Image* Image::copy(int x, int y, int w, int h)
         copy->pixel[i] = new int[h];
         memcpy(copy->pixel[i], &pixel[x][y], sizeof(int)*h);
     }
-
+    copy->update_edge();
     return copy;
 }
 list<Image*> Image::split(int separator_width)
@@ -166,15 +167,12 @@ int Image::area()
 {
     return width * height;
 }
-int Image::get_edge()
-{
-    for (int y = height - 1; y > -1; y--)
-        if (pixel[0][y] == 1) return (height - y - 1);
-    return -1;
-}                                       //  BLACK        YELLOW            values= 4278190080, 4294967040
+
+                                           //  BLACK        YELLOW            values= 4278190080, 4294967040
 //const unsigned int Image::TEXT_COLORS[6] = { qRgb(0,0,0), qRgb(255,255,0), qRgb(254,254,0), qRgb(253,253,0), qRgb(10,10,10), qRgb(0,0,127) };
 //const unsigned int Image::TEXT_COLORS_COUNT = 6;
 const std::set<uint> Image::LANG_COLORS = { qRgb(0,0,0) };
+
 
 // Private members:
 
@@ -190,6 +188,18 @@ void Image::read_image(const QImage& image, const set<uint>& text_colors)
         pixel[x] = new int[height];
         for(int y=0; y<height; ++y)
             pixel[x][y] = text_colors.count(image.pixel(x,y)) ? 1 : 0;
+    }
+    update_edge();
+}
+
+void Image::update_edge()
+{
+    edge = -1;
+    for (int y = height - 1; y > -1; y--) {
+        if (pixel[0][y] == 1) {
+            edge = height - y - 1;
+            break;
+        }
     }
 }
 
