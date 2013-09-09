@@ -44,8 +44,12 @@ IMAGES:
             - [ 15, "CYBER SPCL ORDER DEP" ]
             - [ 16, "CREDIT CARD RECOVERY" ]
     - [ 3, "LAYAWAY MENU" ]
-    -       LAYAWAY MENU: 
+    -       LAYAWAY MENU:
             - [ 1, "LAYAWAY SALE" ]
+            -       LAYAWAY SALE:
+                    - [ 1, "120 DAYS" ]
+                    - [ 2, "30 DAYS" ]
+                    - [ 3, "60 DAYS" ]
             - [ 2, "LAYAWAY STATEMENT" ]
             -       LAYAWAY STATEMENT:
                     - [ 1, "SEARCH BY NAME" ]
@@ -141,3 +145,18 @@ IMAGES:
             - [ 5, "REPRINT REBATE RECEIPT" ]
             - [ 6, "REPRINT PRE-SELL TICKET" ]
     - [ 8, "RESUME" ]
+    - [ 9, "DISCOUNTS" ]
+    -       DISCOUNTS:
+            - [ 1, "STORE DISCOUNT %" ]
+            - [ 2, "STORE COUPON $" ]
+            - [ 3, "UNIT CHARGE DISC." ]
+            - [ 4, "TRANS DISC %" ]
+            - [ 5, "TRANS DISC $" ]
+            - [ 6, "ITEM DISCOUNT %" ]
+            - [ 7, "ITEM DISCOUNT $" ]
+    - [ 10, "ITEM VOID" ]
+    - [ 11, "PRICE OVERRIDE" ]
+    - [ 12, "MEDAGATE ELIGIBLE TOTAL" ]
+    - [ 13, "SUSPEND" ]
+    - [ 14, "EBT TOTAL" ]
+
