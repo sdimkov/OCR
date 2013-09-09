@@ -6,6 +6,14 @@ require 'yaml'
 LANG_PATH = ENV['OCR_TEST_LANG']
 LIB_PATH  = ENV['OCR_TEST_LIB']
 
+# Text effects
+class String
+  def apply_code(code) "\e[#{code}m#{self}\e[0m" end
+  def red()        apply_code(31)  end
+  def green()      apply_code(32)  end
+  def yellow()     apply_code(33)  end
+end
+
 
 # Load shared OCR library
 module LibOCR
@@ -35,7 +43,7 @@ def run_test entry, path
     $pass += 1
   else
     $fail += 1 
-    puts "#{img} FAILED!!! result=#{result}"
+    puts "FAIL: #{img}   expected=\"#{entry[1]}\"   actual=\"#{result}\"".red
   end
 end
 
@@ -70,6 +78,12 @@ ARGV.each do |test_folder|
     LibOCR.ocr_remove_all_colors $ocr
     test['COLORS'].each { |r, g, b| LibOCR.ocr_add_color $ocr, r, g, b }
     process_folder test['IMAGES'], "#{test_folder}/img/"
-    puts "#{test['NAME']}: #{"%.2f" % (($pass*100.00)/($pass+$fail))}% passed."
+    pass_rate = ($pass * 100.00) / ($pass + $fail)
+    result = "#{test['NAME']}:".ljust(27) + " #{"%.2f" % pass_rate}% passed.".ljust(16)
+    puts case pass_rate
+      when 100     then result.green
+      when 70..100 then result.yellow
+      else              result.red
+    end
   end
 end
