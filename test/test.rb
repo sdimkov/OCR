@@ -6,7 +6,7 @@ require 'yaml'
 LANG_PATH = ENV['OCR_TEST_LANG']
 LIB_PATH  = ENV['OCR_TEST_LIB']
 
-# Text effects
+# Add text effects String class
 class String
   def apply_code(code) "\e[#{code}m#{self}\e[0m" end
   def red()        apply_code(31)  end
@@ -68,7 +68,6 @@ LibOCR.ocr_add_language $ocr, "#{LANG_PATH}/lce-prompt/"
 LibOCR.ocr_add_language $ocr, "#{LANG_PATH}/lce-msg/"
 LibOCR.ocr_add_language $ocr, "#{LANG_PATH}/lce-menu/"
 LibOCR.ocr_add_language $ocr, "#{LANG_PATH}/lce-led/"
-
 
 # Run tests on all provided locations
 ARGV.each do |test_folder|
